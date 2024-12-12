@@ -30,3 +30,6 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+### Application ###
+src/test/resources/ors_api_key.txt

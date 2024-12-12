@@ -3,37 +3,39 @@ package io.github.tnas.router4j.model.ors;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import io.github.tnas.router4j.model.Distance;
 import io.github.tnas.router4j.model.Metric;
 import io.github.tnas.router4j.model.Point;
 
-import java.util.List;
-
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OrsDistance implements Distance {
 
+	private static final int SOURCE_INDEX = 0;
+	private static final int DESTINATION_INDEX = 1;
+	
     @JsonProperty("distances")
     private double[][] values;
 
-    private List<OrsPoint> destinations;
+    private OrsPoint[] destinations;
 
-    private List<OrsPoint> sources;
+    private OrsPoint[] sources;
 
     private Metadata metadata;
 
     @Override
     public Point getFrom() {
-        return this.sources.get(0);
+        return this.sources[SOURCE_INDEX];
     }
 
     @Override
     public Point getTo() {
-        return this.destinations.get(1);
+        return this.destinations[DESTINATION_INDEX];
     }
 
     @Override
     public double getValue() {
-        return this.values[0][1];
+        return this.values[SOURCE_INDEX][DESTINATION_INDEX];
     }
 
     @Override
@@ -49,19 +51,19 @@ public class OrsDistance implements Distance {
         this.values = values;
     }
 
-    public List<OrsPoint> getDestinations() {
+    public OrsPoint[] getDestinations() {
         return destinations;
     }
 
-    public void setDestinations(List<OrsPoint> destinations) {
+    public void setDestinations(OrsPoint[] destinations) {
         this.destinations = destinations;
     }
 
-    public List<OrsPoint> getSources() {
+    public OrsPoint[] getSources() {
         return sources;
     }
 
-    public void setSources(List<OrsPoint> sources) {
+    public void setSources(OrsPoint[] sources) {
         this.sources = sources;
     }
 
