@@ -15,6 +15,7 @@
         <junit.version>5.11.0</junit.version>
         <httpclient.version>4.5.14</httpclient.version>
         <jackson.version>2.18.2</jackson.version>
+        <ejb.version>3.0</ejb.version>
     </properties>
 
 	<dependencyManagement>
@@ -44,6 +45,12 @@
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+		    <groupId>javax.ejb</groupId>
+		    <artifactId>ejb-api</artifactId>
+		    <version>${ejb.version}</version>
+		    <scope>provided</scope>
 		</dependency>
     </dependencies>
     
