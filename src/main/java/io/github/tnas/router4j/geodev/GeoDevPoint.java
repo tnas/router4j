@@ -1,7 +1,8 @@
-package io.github.tnas.router4j.model.geodev;
+package io.github.tnas.router4j.geodev;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.github.tnas.router4j.model.Point;
+
+import io.github.tnas.router4j.Point;
 
 public class GeoDevPoint implements Point {
 

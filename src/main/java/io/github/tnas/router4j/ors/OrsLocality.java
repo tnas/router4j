@@ -1,12 +1,12 @@
-package io.github.tnas.router4j.model.ors;
+package io.github.tnas.router4j.ors;
 
 import java.util.Objects;
 import java.util.Optional;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import io.github.tnas.router4j.model.Locality;
-import io.github.tnas.router4j.model.Location;
+import io.github.tnas.router4j.Locality;
+import io.github.tnas.router4j.Location;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OrsLocality implements Locality {

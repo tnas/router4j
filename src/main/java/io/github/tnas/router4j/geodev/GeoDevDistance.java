@@ -1,10 +1,11 @@
-package io.github.tnas.router4j.model.geodev;
+package io.github.tnas.router4j.geodev;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.github.tnas.router4j.model.Distance;
-import io.github.tnas.router4j.model.Metric;
-import io.github.tnas.router4j.model.Point;
+
+import io.github.tnas.router4j.Distance;
+import io.github.tnas.router4j.Metric;
+import io.github.tnas.router4j.Point;
 
 public class GeoDevDistance implements Distance {
 

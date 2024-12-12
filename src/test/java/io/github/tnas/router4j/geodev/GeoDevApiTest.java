@@ -14,9 +14,9 @@ import org.junit.jupiter.api.Test;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 
-import io.github.tnas.router4j.model.Distance;
-import io.github.tnas.router4j.model.Metric;
-import io.github.tnas.router4j.model.geodev.GeoDevDistance;
+import io.github.tnas.router4j.Distance;
+import io.github.tnas.router4j.Metric;
+import io.github.tnas.router4j.geodev.GeoDevDistance;
 
 class GeoDevApiTest {
 

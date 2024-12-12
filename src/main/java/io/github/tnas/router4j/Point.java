@@ -1,4 +1,4 @@
-package io.github.tnas.router4j.model;
+package io.github.tnas.router4j;
 
 public interface Point {
 

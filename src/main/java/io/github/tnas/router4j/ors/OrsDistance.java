@@ -1,12 +1,12 @@
-package io.github.tnas.router4j.model.ors;
+package io.github.tnas.router4j.ors;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import io.github.tnas.router4j.model.Distance;
-import io.github.tnas.router4j.model.Metric;
-import io.github.tnas.router4j.model.Point;
+import io.github.tnas.router4j.Distance;
+import io.github.tnas.router4j.Metric;
+import io.github.tnas.router4j.Point;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OrsDistance implements Distance {

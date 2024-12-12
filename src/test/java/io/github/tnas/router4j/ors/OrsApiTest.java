@@ -10,23 +10,16 @@ import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
-import org.apache.http.HttpHeaders;
-import org.apache.http.entity.ContentType;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 
+import io.github.tnas.router4j.Distance;
+import io.github.tnas.router4j.Locality;
+import io.github.tnas.router4j.Metric;
+import io.github.tnas.router4j.Point;
 import io.github.tnas.router4j.RouterApi;
-import io.github.tnas.router4j.model.Distance;
-import io.github.tnas.router4j.model.Locality;
-import io.github.tnas.router4j.model.Metric;
-import io.github.tnas.router4j.model.Point;
-import io.github.tnas.router4j.model.ors.OrsDistance;
-import io.github.tnas.router4j.model.ors.OrsLocality;
-import io.github.tnas.router4j.model.ors.OrsPoint;
-import io.github.tnas.router4j.model.ors.OrsRouterApi;
 
 class OrsApiTest {
 
@@ -43,22 +36,6 @@ class OrsApiTest {
 	@Test
 	void should_get_distance_from_Curitiba_to_Abatia() {
 		
-//		 var request = HttpRequest.newBuilder()
-//	                .uri(new URI("https://api.openrouteservice.org/v2/matrix/driving-car"))
-//	                .headers(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.getMimeType(),
-//	                        HttpHeaders.AUTHORIZATION, API_KEY)
-//	                .POST(HttpRequest.BodyPublishers.ofString("{\"locations\":[[-49.280018,-25.459935],[-50.31173,-23.302276]],\"metrics\":[\"distance\"],\"units\":\"km\"}"))
-//	                .build();
-//		 
-//		 HttpResponse<String> response = HttpClient.newHttpClient()
-//	                .send(request, HttpResponse.BodyHandlers.ofString());
-//
-//	     System.out.println("Request: " + request.toString());
-//	     System.out.println("Response: " + response.body());
-//	     
-//	     var mapper = JsonMapper.builder().enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS).build();
-//	     Distance distance = mapper.readValue(response.body(), OrsDistance.class);
-	     
 	     Point from = new OrsPoint(-49.279708, -25.46005);
 	     Point to = new OrsPoint(-50.311719, -23.302293);
 	     Distance distance = orsRouterApi.getRoadDistance(from, to, API_KEY);

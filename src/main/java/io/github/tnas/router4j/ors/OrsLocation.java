@@ -1,9 +1,9 @@
-package io.github.tnas.router4j.model.ors;
+package io.github.tnas.router4j.ors;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import io.github.tnas.router4j.model.Location;
-import io.github.tnas.router4j.model.Point;
+import io.github.tnas.router4j.Location;
+import io.github.tnas.router4j.Point;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class OrsLocation implements Location {
