@@ -63,7 +63,9 @@ class OrsApiTest {
 	@Test
 	void should_get_one_location_for_BeloHorizonte_MinasGerais_BR() throws Exception {
 		
-		var uri = String.format("https://api.openrouteservice.org/geocode/search/structured?api_key=%s&region=Minas%%20Gerais&locality=Belo%%20Horizonte&boundary.country=BR", API_KEY);
+		var uri = String.format("https://api.openrouteservice.org/geocode/search/structured?"
+				+ "api_key=%s&region=Minas%%20Gerais&locality=Belo%%20Horizonte&boundary.country=%s", 
+				API_KEY, "BR");
 		
 		var request = HttpRequest.newBuilder().uri(new URI(uri)).GET().build();
 		
@@ -82,5 +84,31 @@ class OrsApiTest {
 	    assertEquals("Belo Horizonte", locality.getLocations()[0].getName());
 	    assertEquals("Minas Gerais", locality.getLocations()[0].getRegion());
 	}
-
+	
+	@Test
+	void should_return_error_invalid_isocode_country() throws Exception {
+		
+		var invalidCountryIsoCode = "ZZ";
+		
+		var uri = String.format("https://api.openrouteservice.org/geocode/search/structured?"
+				+ "api_key=%s&locality=Curitiba&boundary.country=%s", 
+				API_KEY, "ZZ");
+		
+		var request = HttpRequest.newBuilder().uri(new URI(uri)).GET().build();
+		
+		HttpResponse<String> response = HttpClient.newHttpClient()
+                .send(request, HttpResponse.BodyHandlers.ofString());
+		
+		System.out.println("Request: " + request.toString());
+	    System.out.println("Response: " + response.body());
+	    
+	    var mapper = new JsonMapper();
+	    Locality locality = mapper.readValue(response.body(), OrsLocality.class);
+	    
+	    assertEquals(0, locality.getLocations().length);
+	    assertEquals(1, locality.getErrors().get().length);
+	    assertEquals(String.format("%s is not a valid ISO2/ISO3 country code", invalidCountryIsoCode), 
+	    		locality.getErrors().get()[0]);
+	}
+	
 }
