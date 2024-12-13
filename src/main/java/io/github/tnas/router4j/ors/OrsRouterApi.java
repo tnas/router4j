@@ -1,5 +1,16 @@
 package io.github.tnas.router4j.ors;
 
+import com.fasterxml.jackson.core.JacksonException;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import io.github.tnas.router4j.Distance;
+import io.github.tnas.router4j.Locality;
+import io.github.tnas.router4j.Point;
+import io.github.tnas.router4j.RouterApi;
+import io.github.tnas.router4j.exception.RouterException;
+import org.apache.http.HttpHeaders;
+import org.apache.http.entity.ContentType;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -10,19 +21,6 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.Locale;
 import java.util.Objects;
-
-import io.github.tnas.router4j.Locality;
-import org.apache.http.HttpHeaders;
-import org.apache.http.entity.ContentType;
-
-import com.fasterxml.jackson.core.JacksonException;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-
-import io.github.tnas.router4j.Distance;
-import io.github.tnas.router4j.Point;
-import io.github.tnas.router4j.RouterApi;
-import io.github.tnas.router4j.exception.RouterException;
 
 public class OrsRouterApi implements RouterApi {
 
@@ -69,7 +67,7 @@ public class OrsRouterApi implements RouterApi {
 		uriBuilder.append(String.format("api_key=%s", apiKey));
 
 		if (Objects.nonNull(country)) {
-			uriBuilder.append(String.format("&boundary.country=%s", URLEncoder.encode(country, StandardCharsets.UTF_8)));
+			uriBuilder.append(String.format("&country=%s", URLEncoder.encode(country, StandardCharsets.UTF_8)));
 		}
 
 		if (Objects.nonNull(region)) {

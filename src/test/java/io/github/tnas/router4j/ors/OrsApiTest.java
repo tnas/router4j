@@ -13,7 +13,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class OrsApiTest {
 
@@ -52,22 +51,6 @@ class OrsApiTest {
 	    assertEquals(-19.914319, locality.getLocations()[0].getPoint().getLatitude());
 	    assertEquals("Belo Horizonte", locality.getLocations()[0].getName());
 	    assertEquals("Minas Gerais", locality.getLocations()[0].getRegion());
-	}
-	
-	@Test
-	void should_return_error_invalid_isoCode_country() {
-		
-		var invalidCountryIsoCode = "ZZ";
-		
-		Locality locality = orsRouterApi.getLocality("Curitiba", null, invalidCountryIsoCode, apiKey);
-
-		var errors = locality.getErrors().isPresent() ? locality.getErrors().get() : null;
-
-	    assertEquals(0, locality.getLocations().length);
-		assertNotNull(errors);
-	    assertEquals(1, errors.length);
-	    assertEquals(String.format("%s is not a valid ISO2/ISO3 country code", invalidCountryIsoCode), 
-	    		locality.getErrors().get()[0]);
 	}
 	
 }

@@ -1,48 +1,66 @@
 package io.github.tnas.router4j.geodev;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-
-import org.apache.http.HttpHeaders;
-import org.apache.http.entity.ContentType;
+import io.github.tnas.router4j.Distance;
+import io.github.tnas.router4j.Locality;
+import io.github.tnas.router4j.Metric;
+import io.github.tnas.router4j.Point;
+import io.github.tnas.router4j.RouterApi;
+import io.github.tnas.router4j.exception.RouterException;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.json.JsonMapper;
+import java.util.stream.Stream;
 
-import io.github.tnas.router4j.Distance;
-import io.github.tnas.router4j.Metric;
-import io.github.tnas.router4j.geodev.GeoDevDistance;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class GeoDevApiTest {
 
+	private static RouterApi geoDevRouterApi;
+
+	@BeforeAll
+	public static void setUp() {
+		geoDevRouterApi = new GeoDevRouterApi();
+	}
+
 	@Test
-	void should_get_distance_from_Curitiba_to_Abatia() throws Exception {
+	void should_get_distance_from_Curitiba_to_Abatia() {
 		
-		var request = HttpRequest.newBuilder()
-                .uri(new URI("https://api.geo.dev/distance"))
-                .headers(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.getMimeType())
-                .POST(HttpRequest.BodyPublishers.ofString("{\"from\":{\"lat\":-25.49509,\"lon\":-49.28433},\"to\":{\"lat\":-23.3045,\"lon\":-50.34063}}"))
-                .build();
-		 
-		HttpResponse<String> response = HttpClient.newHttpClient()
-                .send(request, HttpResponse.BodyHandlers.ofString());
+		Point from = new GeoDevPoint(-25.49509, -49.28433);
+		Point to = new GeoDevPoint(-23.3045, -50.34063);
+		Distance distance = geoDevRouterApi.getRoadDistance(from, to, null);
 
-        System.out.println("Request: " + request.toString());
-        System.out.println("Response: " + response.body());
-
-        var mapper = JsonMapper.builder().enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS).build();
-        Distance distance = mapper.readValue(response.body(), GeoDevDistance.class);
-	     
 	    assertEquals(266.02926599711407, distance.getValue());
 	    assertEquals(-25.49509, distance.getFrom().getLatitude());
 	    assertEquals(-49.28433, distance.getFrom().getLongitude());
 	    assertEquals(-23.3045, distance.getTo().getLatitude());
 	    assertEquals(-50.34063, distance.getTo().getLongitude());
 	    assertEquals(Metric.KM, distance.getMetric());
+	}
+
+	@Test
+	void should_get_seven_locations_for_Curitiba_Parana_BR() {
+
+		Locality locality = geoDevRouterApi.getLocality("Curitiba", "Paraná", null);
+
+		assertEquals(7, locality.getLocations().length);
+
+		var location = Stream.of(locality.getLocations())
+				.filter(l -> l.getName().equals("Curitiba"))
+				.findFirst()
+				.orElse(null);
+
+		assertNotNull(location);
+		assertEquals(-49.28433, location.getPoint().getLongitude());
+		assertEquals(-25.49509, location.getPoint().getLatitude());
+		assertEquals("Curitiba", location.getName());
+		assertEquals("South Region", location.getRegion());
+	}
+
+	@Test
+	void should_throw_exception_when_search_less_than_3_characters() {
+		assertThrows(RouterException.class, () -> geoDevRouterApi.getLocality("Be", null, null),
+		"Need to post more than 2 characters");
 	}
 }
