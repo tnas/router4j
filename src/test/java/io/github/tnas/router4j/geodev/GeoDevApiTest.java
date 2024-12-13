@@ -1,9 +1,11 @@
 package io.github.tnas.router4j.geodev;
 
+import io.github.tnas.router4j.ApiType;
 import io.github.tnas.router4j.Distance;
 import io.github.tnas.router4j.Locality;
 import io.github.tnas.router4j.Metric;
 import io.github.tnas.router4j.Point;
+import io.github.tnas.router4j.PointBuilder;
 import io.github.tnas.router4j.RouterApi;
 import io.github.tnas.router4j.exception.RouterException;
 import org.junit.jupiter.api.BeforeAll;
@@ -29,6 +31,17 @@ class GeoDevApiTest {
 		
 		Point from = new GeoDevPoint(-25.49509, -49.28433);
 		Point to = new GeoDevPoint(-23.3045, -50.34063);
+
+//		Point from = PointBuilder.newBuilder()
+//				.apiType(ApiType.GEO_DEV)
+//				.longitude(-49.28433).latitude(-25.49509)
+//				.build();
+//
+//		Point to = PointBuilder.newBuilder()
+//				.apiType(ApiType.GEO_DEV)
+//				.longitude(-23.3045).latitude(-50.34063)
+//				.build();
+
 		Distance distance = geoDevRouterApi.getRoadDistance(from, to, null);
 
 	    assertEquals(266.02926599711407, distance.getValue());
