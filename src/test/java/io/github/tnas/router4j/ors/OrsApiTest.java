@@ -1,35 +1,29 @@
 package io.github.tnas.router4j.ors;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-
-import com.fasterxml.jackson.databind.json.JsonMapper;
-
 import io.github.tnas.router4j.Distance;
 import io.github.tnas.router4j.Locality;
 import io.github.tnas.router4j.Metric;
 import io.github.tnas.router4j.Point;
 import io.github.tnas.router4j.RouterApi;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class OrsApiTest {
 
-	private static String API_KEY;
+	private static String apiKey;
 	
 	private static RouterApi orsRouterApi;
 	
 	@BeforeAll
 	public static void setUp() throws IOException {
-		API_KEY = Files.readString(Paths.get("src/test/resources/ors_api_key.txt"));
+		apiKey = Files.readString(Paths.get("src/test/resources/ors_api_key.txt"));
 		orsRouterApi = new OrsRouterApi();
 	}
 	
@@ -38,7 +32,7 @@ class OrsApiTest {
 		
 	     Point from = new OrsPoint(-49.279708, -25.46005);
 	     Point to = new OrsPoint(-50.311719, -23.302293);
-	     Distance distance = orsRouterApi.getRoadDistance(from, to, API_KEY);
+	     Distance distance = orsRouterApi.getRoadDistance(from, to, apiKey);
 	     
 	     assertEquals(382.56, distance.getValue());
 	     assertEquals(-25.46005, distance.getFrom().getLatitude());
@@ -49,22 +43,9 @@ class OrsApiTest {
 	}
 	
 	@Test
-	void should_get_one_location_for_BeloHorizonte_MinasGerais_BR() throws Exception {
+	void should_get_one_location_for_BeloHorizonte_MinasGerais_BR() {
 		
-		var uri = String.format("https://api.openrouteservice.org/geocode/search/structured?"
-				+ "api_key=%s&region=Minas%%20Gerais&locality=Belo%%20Horizonte&boundary.country=%s", 
-				API_KEY, "BR");
-		
-		var request = HttpRequest.newBuilder().uri(new URI(uri)).GET().build();
-		
-		HttpResponse<String> response = HttpClient.newHttpClient()
-                .send(request, HttpResponse.BodyHandlers.ofString());
-		
-		System.out.println("Request: " + request.toString());
-	    System.out.println("Response: " + response.body());
-	    
-	    var mapper = new JsonMapper();
-	    Locality locality = mapper.readValue(response.body(), OrsLocality.class);
+		Locality locality = orsRouterApi.getLocality("Belo Horizonte", "Minas Gerais", apiKey);
 	    
 	    assertEquals(1, locality.getLocations().length);
 	    assertEquals(-43.959502, locality.getLocations()[0].getPoint().getLongitude());
@@ -74,27 +55,17 @@ class OrsApiTest {
 	}
 	
 	@Test
-	void should_return_error_invalid_isocode_country() throws Exception {
+	void should_return_error_invalid_isoCode_country() {
 		
 		var invalidCountryIsoCode = "ZZ";
 		
-		var uri = String.format("https://api.openrouteservice.org/geocode/search/structured?"
-				+ "api_key=%s&locality=Curitiba&boundary.country=%s", 
-				API_KEY, "ZZ");
-		
-		var request = HttpRequest.newBuilder().uri(new URI(uri)).GET().build();
-		
-		HttpResponse<String> response = HttpClient.newHttpClient()
-                .send(request, HttpResponse.BodyHandlers.ofString());
-		
-		System.out.println("Request: " + request.toString());
-	    System.out.println("Response: " + response.body());
-	    
-	    var mapper = new JsonMapper();
-	    Locality locality = mapper.readValue(response.body(), OrsLocality.class);
-	    
+		Locality locality = orsRouterApi.getLocality("Curitiba", null, invalidCountryIsoCode, apiKey);
+
+		var errors = locality.getErrors().isPresent() ? locality.getErrors().get() : null;
+
 	    assertEquals(0, locality.getLocations().length);
-	    assertEquals(1, locality.getErrors().get().length);
+		assertNotNull(errors);
+	    assertEquals(1, errors.length);
 	    assertEquals(String.format("%s is not a valid ISO2/ISO3 country code", invalidCountryIsoCode), 
 	    		locality.getErrors().get()[0]);
 	}
