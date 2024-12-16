@@ -1,15 +1,16 @@
 package io.github.tnas.router4j.geodev;
 
+import java.net.http.HttpRequest;
+import java.util.Locale;
+import java.util.Objects;
+
+import org.apache.http.HttpHeaders;
+import org.apache.http.entity.ContentType;
+
 import io.github.tnas.router4j.AbstractRouterApi;
 import io.github.tnas.router4j.Distance;
 import io.github.tnas.router4j.Locality;
 import io.github.tnas.router4j.Point;
-import org.apache.http.HttpHeaders;
-import org.apache.http.entity.ContentType;
-
-import java.net.http.HttpRequest;
-import java.util.Locale;
-import java.util.Objects;
 
 public class GeoDevRouterApi extends AbstractRouterApi {
 
