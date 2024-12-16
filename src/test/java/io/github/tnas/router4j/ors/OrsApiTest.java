@@ -1,9 +1,11 @@
 package io.github.tnas.router4j.ors;
 
+import io.github.tnas.router4j.ApiType;
 import io.github.tnas.router4j.Distance;
 import io.github.tnas.router4j.Locality;
 import io.github.tnas.router4j.Metric;
 import io.github.tnas.router4j.Point;
+import io.github.tnas.router4j.PointBuilder;
 import io.github.tnas.router4j.RouterApi;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -29,8 +31,15 @@ class OrsApiTest {
 	@Test
 	void should_get_distance_from_Curitiba_to_Abatia() {
 		
-	     Point from = new OrsPoint(-49.279708, -25.46005);
-	     Point to = new OrsPoint(-50.311719, -23.302293);
+	     Point from = PointBuilder.newBuilder()
+	    		 .apiType(ApiType.ORS)
+	    		 .longitude(-49.279708).latitude(-25.46005)
+	    		 .build();
+	     Point to = PointBuilder.newBuilder()
+	    		 .apiType(ApiType.ORS)
+	    		 .longitude(-50.311719).latitude(-23.302293)
+	    		 .build();
+	     
 	     Distance distance = orsRouterApi.getRoadDistance(from, to, apiKey);
 	     
 	     assertEquals(382.56, distance.getValue());

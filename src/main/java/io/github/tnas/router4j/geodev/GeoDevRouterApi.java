@@ -8,6 +8,7 @@ import org.apache.http.HttpHeaders;
 import org.apache.http.entity.ContentType;
 
 import java.net.http.HttpRequest;
+import java.util.Locale;
 import java.util.Objects;
 
 public class GeoDevRouterApi extends AbstractRouterApi {
@@ -23,7 +24,7 @@ public class GeoDevRouterApi extends AbstractRouterApi {
 
         var requestBuilder = HttpRequest.newBuilder()
                 .headers(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.getMimeType())
-                .POST(HttpRequest.BodyPublishers.ofString(String.format(DISTANCE_PARAMS,
+                .POST(HttpRequest.BodyPublishers.ofString(String.format(Locale.US, DISTANCE_PARAMS,
                         from.getLatitude(), from.getLongitude(), to.getLatitude(), to.getLongitude())));
 
         return this.sendRequest(requestBuilder, DISTANCE_ENDPOINT, GeoDevDistance.class);
