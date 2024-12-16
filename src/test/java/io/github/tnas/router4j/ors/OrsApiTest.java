@@ -68,7 +68,7 @@ class OrsApiTest {
 		Point from = PointBuilder.newBuilder().apiType(ApiType.ORS).longitude(-49.279708).latitude(-25.46005).build();
 		Point to = PointBuilder.newBuilder().apiType(ApiType.ORS).longitude(-50.311719).latitude(-23.302293).build();
 
-		for (int count = 1; count <= orsRouterApi.getRoadDistancePerMinute();) {
+		for (int count = 1; count <= orsRouterApi.getApiQuota().roadDistancePerMinute();) {
 			System.out.println("Sending request number " + count++);
 			orsRouterApi.getRoadDistance(from, to, apiKey);
 		}

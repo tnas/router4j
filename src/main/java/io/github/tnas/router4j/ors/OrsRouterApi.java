@@ -1,6 +1,7 @@
 package io.github.tnas.router4j.ors;
 
 import io.github.tnas.router4j.AbstractRouterApi;
+import io.github.tnas.router4j.ApiQuota;
 import io.github.tnas.router4j.Distance;
 import io.github.tnas.router4j.Locality;
 import io.github.tnas.router4j.Point;
@@ -20,6 +21,7 @@ public class OrsRouterApi extends AbstractRouterApi {
 	private static final String DISTANCE_ENDPOINT = "https://api.openrouteservice.org/v2/matrix/driving-car";
 	private static final String DISTANCE_PARAMS = "{\"locations\":[[%f,%f],[%f,%f]],\"metrics\":[\"distance\"],\"units\":\"km\"}";
 	private static final String SEARCH_ENDPOINT = "https://api.openrouteservice.org/geocode/search/structured?";
+	private static final ApiQuota apiQuota = new OrsApiQuota();
 
 	@Override
 	public Distance getRoadDistance(Point from, Point to, String apiKey) {
@@ -74,24 +76,8 @@ public class OrsRouterApi extends AbstractRouterApi {
 	}
 
 	@Override
-	public int getRoadDistancePerMinute() {
-		return 40;
+	public ApiQuota getApiQuota() {
+		return apiQuota;
 	}
 
-	@Override
-	public int getRoadDistancePerDay() {
-		return 500;
-	}
-
-	@Override
-	public int getLocalityPerMinute() {
-		return 100;
-	}
-
-	@Override
-	public int getLocalityPerDay() {
-		return 1000;
-	}
-	
-	
 }

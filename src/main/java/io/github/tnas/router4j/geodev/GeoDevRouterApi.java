@@ -8,6 +8,7 @@ import org.apache.http.HttpHeaders;
 import org.apache.http.entity.ContentType;
 
 import io.github.tnas.router4j.AbstractRouterApi;
+import io.github.tnas.router4j.ApiQuota;
 import io.github.tnas.router4j.Distance;
 import io.github.tnas.router4j.Locality;
 import io.github.tnas.router4j.Point;
@@ -19,6 +20,7 @@ public class GeoDevRouterApi extends AbstractRouterApi {
     private static final String SEARCH_ENDPOINT = "https://api.geo.dev/search";
     private static final String SEARCH_PARAMS = "{\"term\":\"%s\"}";
     private static final String SEARCH_SEPARATOR = ", ";
+    private static final ApiQuota apiQuota = new GeoDevApiQuota();
 
     @Override
     public Distance getRoadDistance(Point from, Point to, String apiKey) {
@@ -51,4 +53,9 @@ public class GeoDevRouterApi extends AbstractRouterApi {
     public Locality getLocality(String name, String region, String country, String apiKey) {
         throw new UnsupportedOperationException("GeoDev API does not search using country param");
     }
+
+	@Override
+	public ApiQuota getApiQuota() {
+		return apiQuota;
+	}
 }

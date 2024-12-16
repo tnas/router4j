@@ -1,5 +1,6 @@
 package io.github.tnas.router4j.service;
 
+import io.github.tnas.router4j.ApiQuota;
 import io.github.tnas.router4j.ApiType;
 import io.github.tnas.router4j.Distance;
 import io.github.tnas.router4j.Locality;
@@ -28,5 +29,9 @@ public class RouterService {
 
     public Locality getLocality(String name, String region, String apiKey, ApiType type) {
         return this.routerApi.get(type).getLocality(name, region, apiKey);
+    }
+    
+    public ApiQuota getQuota(ApiType type) {
+    	return this.routerApi.get(type).getApiQuota();
     }
 }
