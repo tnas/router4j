@@ -65,12 +65,10 @@ class OrsApiTest {
 	@Test
 	void should_get_error_from_distance_endpoint_moreThan_40_requests_per_minute() throws JsonProcessingException {
 
-		var rateLimit = 40;
-		
 		Point from = PointBuilder.newBuilder().apiType(ApiType.ORS).longitude(-49.279708).latitude(-25.46005).build();
 		Point to = PointBuilder.newBuilder().apiType(ApiType.ORS).longitude(-50.311719).latitude(-23.302293).build();
 
-		for (int count = 1; count <= rateLimit;) {
+		for (int count = 1; count <= orsRouterApi.getRoadDistancePerMinute();) {
 			System.out.println("Sending request number " + count++);
 			orsRouterApi.getRoadDistance(from, to, apiKey);
 		}

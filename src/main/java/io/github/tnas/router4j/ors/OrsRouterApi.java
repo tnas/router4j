@@ -72,4 +72,26 @@ public class OrsRouterApi extends AbstractRouterApi {
 
 		return this.sendRequest(HttpRequest.newBuilder().GET(), uriBuilder.toString(), OrsLocality.class);
 	}
+
+	@Override
+	public int getRoadDistancePerMinute() {
+		return 40;
+	}
+
+	@Override
+	public int getRoadDistancePerDay() {
+		return 500;
+	}
+
+	@Override
+	public int getLocalityPerMinute() {
+		return 100;
+	}
+
+	@Override
+	public int getLocalityPerDay() {
+		return 1000;
+	}
+	
+	
 }
