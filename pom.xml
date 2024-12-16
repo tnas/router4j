@@ -8,6 +8,10 @@
     <artifactId>router4j</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+	<name>router4j</name>
+	<description>A Java library for route distance calculator supported by free APIs</description>
+	<url>https://github.com/tnas/router4j</url>
+	
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
@@ -17,6 +21,31 @@
         <jackson.version>2.18.2</jackson.version>
         <ejb.version>3.0</ejb.version>
     </properties>
+    
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<id>tnas</id>
+			<name>Thiago Nascimento</name>
+			<email>nascimenthiago@gmail.com</email>
+			<organizationUrl>http://nascimentothiago.rf.gd/</organizationUrl>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:git://github.com/tnas/router4j.git</connection>
+		<developerConnection>
+			scm:git:ssh://github.com:tnas/router4j.git
+		</developerConnection>
+		<url>https://github.com/tnas/router4j/tree/main</url>
+	</scm>
 
 	<dependencyManagement>
 		<dependencies>
@@ -54,4 +83,41 @@
 		</dependency>
     </dependencies>
     
+    <build>
+		<plugins>
+			<plugin>
+				<groupId>org.sonatype.central</groupId>
+				<artifactId>central-publishing-maven-plugin</artifactId>
+				<version>0.6.0</version>
+				<extensions>true</extensions>
+				<configuration>
+					<!-- Set skipPublishing=false to publish -->
+					<skipPublishing>true</skipPublishing>
+					<publishingServerId>central</publishingServerId>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>3.2.7</version>
+				<configuration>
+					<!-- MAVEN_GPG_PASSPHRASE env variable must be defined -->
+					<bestPractices>true</bestPractices>
+					<gpgArguments>
+						<arg>--pinentry-mode</arg>
+						<arg>loopback</arg>
+					</gpgArguments>
+				</configuration>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+	
 </project>
