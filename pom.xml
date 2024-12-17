@@ -116,7 +116,7 @@
 				<extensions>true</extensions>
 				<configuration>
 					<!-- Set skipPublishing=false to publish -->
-					<skipPublishing>false</skipPublishing>
+					<skipPublishing>true</skipPublishing>
 					<publishingServerId>central</publishingServerId>
 				</configuration>
 			</plugin>
